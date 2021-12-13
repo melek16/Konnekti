@@ -1,0 +1,4 @@
+{
+    "mongoURI":"mongodb+srv://Melek21:MkRqucsXIlWNQgG0@devconnector.nkaaj.mongodb.net/ProjDatabase?retryWrites=true&w=majority",
+    "jwtSecret":"whateversecrettoken"
+}
