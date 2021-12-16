@@ -2,8 +2,10 @@ import React, { Fragment, useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Link} from 'react-router-dom'
 import { avatarUpdate, getCurrentProfile} from '../actions/profile'
+import Poster from './posts/Poster'
 import ProfileFirstSection from './profiles/ProfileFirstSection'
 import ProfileInfoSection from './profiles/ProfileInfoSection'
+import ProfilePosts from './profiles/ProfilePosts'
 import Spinner from './Spinner'
 
 
@@ -69,26 +71,28 @@ const Profile = () => {
             month = d.getMonth(),
             day = d.getDate()+",",
             year = d.getFullYear();
-            console.log(month)
         return [monthNames[month],day, year].join(' ');
     }
+
+    const checkProfile=profile=>Object.values({...profile,__v:0}).filter(e=>e)
+    console.log(profile && checkProfile(profile))
     return(
         loading && profile===null? <Spinner/>:
         <Fragment>
-            {profile !== null ?
+            {profile !== null &&
             <div id="profile">
                 <ProfileFirstSection profile={profile} onChange={onChange} onSubmit={onSubmit} avatarForm={avatarForm} closeAvatarForm={closeAvatarForm}
                 height={height} width={width} currentUser={currentUser}/>
+                {(checkProfile(profile).length<4) &&
+                <div id="create_profile_btn">
+                    <p>You have not setup a profile yet, please add some info</p>
+                    <Link to="/create-profile">Create profile</Link>
+                </div>}
                 <ProfileInfoSection profile={profile} formatDate={formatDate} dateGetYear={dateGetYear}/>
 
-            </div>:
-            <div className='SpinnerContainer'>
-            <div id="create_profile_btn">
-                <p>You have not yet setup a profile, please add some info</p>
-                <Link to="create-profile">Create profile</Link>
-            </div>
             </div>}
-
+            <Poster/>
+            <ProfilePosts/>
         </Fragment>
     )
 }

@@ -4,10 +4,9 @@ import {Routes} from 'react-router'
 import LandingPage from './Components/LandingPage';
 import RegisterPage from './Components/RegisterPage';
 import setAuthToken from './reducers/utils/setAuthToken';
-import { Fragment, useEffect } from 'react';
-import store from './store';
+import { useEffect } from 'react';
+import sp from './store';
 import { loadUser } from './actions/auth';
-import Dashboard from './Components/dashboard/Dashboard';
 import Navbar from './Components/Navbar'
 import RequireAuth from './Components/routing/requireAuth';
 import CreateProfile from './Components/profile-forms/CreateProfile';
@@ -16,6 +15,8 @@ import Shop from './Components/shop/Shop';
 import Chat from './Components/Chat/Chat';
 import Profiles from './Components/profiles/Profiles';
 import OtherUserProfile from './Components/profiles/OtherUserProfile';
+import Posts from './Components/posts/Posts';
+import Poster from './Components/posts/Poster';
 
 
 
@@ -24,7 +25,7 @@ if(localStorage.token){
 }
 function App() {
   useEffect(
-    ()=>{store.dispatch(loadUser())}
+    ()=>{sp.store.dispatch(loadUser())}
     ,[]
   )
   return (
@@ -33,14 +34,19 @@ function App() {
    <Routes>
       <Route exact path='/' element={<LandingPage/>}/>
       <Route exact path="/register" element={<RegisterPage/>}/>
-      <Route exact path='/dashboard' element={
+      <Route exact path='/posts' element={
                   <RequireAuth redirectTo='/'>
                     <Navbar/>
-                    <Dashboard/>
+                    <Poster/>
+                    <Posts/>
                   </RequireAuth>
                     }/>
-      <Route exact path='/profiles' element={<Profiles/>}/>
-      <Route exact path="/dashboard/create-profile" element={
+      <Route exact path='/profiles' element={
+                  <RequireAuth redirectTo='/'>
+                  <Profiles/>
+                  </RequireAuth>
+                  }/>
+      <Route exact path="/create-profile" element={
                   <RequireAuth redirectTo='/'>
                     <CreateProfile/>
                   </RequireAuth>}/>
@@ -51,10 +57,10 @@ function App() {
                   </RequireAuth>
       } />
       <Route exact path="/profile/:userId" element={
-                  <Fragment>
+                  <RequireAuth redirectTo='/'>
                   <Navbar/>
                   <OtherUserProfile/>
-                  </Fragment>
+                  </RequireAuth>
                   }/>
       <Route exact path="/shop" element={
                   <RequireAuth redirectTo='/'>

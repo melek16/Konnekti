@@ -5,6 +5,7 @@ import { getProfileById } from '../../actions/profile'
 import Spinner from '../Spinner'
 import ProfileFirstSection from './ProfileFirstSection'
 import ProfileInfoSection from './ProfileInfoSection'
+import ProfilePosts from './ProfilePosts'
 
 const OtherUserProfile = () => {
     const {profile,loading} = useSelector(state => state.profile)
@@ -41,21 +42,20 @@ function formatDate(date) {
         month = d.getMonth(),
         day = d.getDate()+",",
         year = d.getFullYear();
-        console.log(month)
     return [monthNames[month],day, year].join(' ');
 }
+
+const checkProfile=profile=>Object.values({...profile,__v:0}).filter(e=>e)
 return(
     loading ? <Spinner/>:
     <Fragment>
-        {profile !== null ?
+        {profile !== null &&
         <div id="profile" className='otherUserProfile'>
             <ProfileFirstSection profile={profile} currentUser={currentUser} height={height} width={width}/>
+            {checkProfile(profile).length<4 &&<p id="no-pro">This user has no profile yet.</p>}
             <ProfileInfoSection profile={profile} formatDate={formatDate} dateGetYear={dateGetYear}/>
-        </div>:
-        <div className='SpinnerContainer'>
-            <p>User not found</p>
         </div>}
-
+        <ProfilePosts/>
     </Fragment>
 )
 }

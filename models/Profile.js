@@ -13,11 +13,9 @@ const ProfileSchema=new mongoose.Schema({
     },
     from:{
         type:String,
-        required:true
     },
     birthdate:{
         type:Date,
-        required:true
     },
     creationDate:{
         type:Date,

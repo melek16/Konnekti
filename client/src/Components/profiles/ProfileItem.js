@@ -27,7 +27,7 @@ const ProfileItem = ({profile}) => {
     }
 }
     return (
-        <li onClick={()=>navigate(profile.user._id===user._id? "/profile":`/profile/${profile.user._id}`)}>
+        <li onClick={()=>{navigate(profile.user._id===user._id? "/profile":`/profile/${profile.user._id}`)}}>
         <div id="profiles_avatar_container">
             <img src={profile && profile.user.avatar} alt="" width={width} height={height}/>
         </div>

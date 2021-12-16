@@ -15,7 +15,7 @@ const Profiles = ({search}) => {
             <ul>
             {
                 profiles.map((profile,i)=> search && profile.user.name.toLowerCase().includes(search.toLowerCase())?
-               <ProfileItem key={i} profile={profile} />:null)
+                <ProfileItem key={i} profile={profile}/>:null)
             }
             </ul>
         </div>

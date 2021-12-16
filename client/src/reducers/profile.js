@@ -14,7 +14,7 @@ export default function profile(state=initialState,{type,payload}){
         case GET_PROFILES:
             return {...state,profiles:payload}
         case MODIFY_AVATAR:
-            return {...state,loading:false,profile:{...state.profile,user:payload}}
+            return {...state,profile:{...state.profile,user:payload}}
         case PROFILE_ERROR:
             return {...state,error:payload}
         case CLEAR_PROFILE:

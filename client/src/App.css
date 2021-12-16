@@ -1,8 +1,9 @@
 body{
   margin: 0;
   background: rgb(240,242,245);
+  padding-top: 65px;
 }
-h1,h2,h3,h4,h5,h6,p,a,div,span,ul{
+h1,h2,h3,h4,h5,h6,p,a,div,span,ul,fieldset{
   margin: 0;
   padding: 0%;
 }
@@ -357,9 +358,30 @@ margin: 10em;
   box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px 3px;
   background: #fff;
 }
+#navBar #logout button{
+  margin: .2em 0;
+  width: 100%;
+  height: 30px;
+  border: 2px solid #B8142D;
+  color: #920d21;
+  background: transparent;
+  outline: none;
+  border-radius: 5px;
+  font-weight: 500;
+  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+}
+#navBar #logout button:hover{
+    cursor: pointer;
+    background:#BD3F32;
+    color: white;
+}
+#navBar #logout button:hover>svg{
+  fill: white;
+}
 #navBar #logout svg{
   height:1.5em;
   margin-right: .2em;
+  pointer-events: none;
 }
 #navBar #profileBtn{
   justify-content: flex-end;
@@ -381,7 +403,7 @@ margin: 10em;
   background:#f3f3f3;
   cursor: pointer;
 }
-#navBar #profileBtn #nav_avatar_container{
+#nav_avatar_container{
   height: 33px;
   width: 33px;
   border-radius: 50%;
@@ -427,6 +449,7 @@ cursor: pointer;
   position: fixed;
   top: 55px;
 }
+
 
 
 
@@ -593,12 +616,14 @@ background: linear-gradient(to right, #2C5364, #203A43, #0F2027) !important; /* 
 }
 #profile #profile_info_section{
   display: grid;
-  grid-template-columns: repeat(2,50%);
+  grid-template-columns: repeat(auto-fit, minmax(290px, 1fr));
   justify-content: center;
   grid-gap: 10px;
   width: 100%;
   margin-top: .6em;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  border-bottom: .5px solid rgb(211, 209, 209);
+  padding-bottom: 10px;
 }
 #profile #profile_info_section > div{
   background:rgb(250, 249, 249);
@@ -622,19 +647,46 @@ background: linear-gradient(to right, #2C5364, #203A43, #0F2027) !important; /* 
   padding-left: 4px ;
   color: rgb(104, 103, 103);
 }
-#profile #profile_info_section div>div>div> h5 > span{
+#profile #profile_info_section div>div> h5 > span{
   color: black;
   font-weight: 400;
+  font-size: 13.5px;
   padding-left: 4px ;
+}
+#profile .ee{
+  margin-top: .4em;
 }
 #profile #profile_info_section h2{
   font-size: 20px;
   letter-spacing: .1em;
-  margin-bottom: 1em;
+  margin-bottom: .1em;
+  margin-top: .2em;
   color: #920d21;
 }
 .otherUserProfile #profile_info_section h2{
   color:rgb(16, 16, 97) !important;
+}
+#create_profile_btn,#no-pro {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: .8em;
+}
+#create_profile_btn > p,#no-pro{
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  letter-spacing: .05em;
+}
+#create_profile_btn > a{
+  text-decoration: none;
+  background:#2C5364;
+  color: white;
+  padding: .5em .7em;
+  border-radius: 4px;
+  font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+  margin-top: .6em;
+}
+#create_profile_btn > a:hover{
+  background:#356174;
 }
 
 
@@ -683,8 +735,153 @@ background: linear-gradient(to right, #2C5364, #203A43, #0F2027) !important; /* 
   border-radius: 50%;
   margin-right: .4em;
 }
-#create_profile_btn{
 
+
+
+
+
+
+
+
+
+
+/*create or update profile page*/
+::-webkit-calendar-picker-indicator{
+  display:none
+}
+::-webkit-datetime-edit-fields-wrapper { 
+  background: white;
+  padding: .1em .2em;
+  border:1px solid rgb(175, 172, 172);
+  border-radius: 3px;
+}
+.dateField{
+  background: transparent;
+}
+.duration_field{
+  margin-top: .9em;
+  margin-bottom: .3em;
+}
+#create_profile_form{
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: 0;
+  bottom: 0;
+}
+#create_profile_form fieldset,.dateField{
+  border: none;
+}
+#create_profile_form input{
+  outline: none;
+  height: 25px;
+}
+#create_profile_form label{
+  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+  margin-bottom: .3em;
+  margin-top: .9em;
+}
+#main_fieldset{
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  border:none;
+}
+#main_fieldset h2{
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  color: #203A43;
+}
+#general_info_field input,#general_info_field textarea{
+  border-radius: 3px;
+  border: 1px solid rgb(175, 172, 172);
+}
+#general_info_field ::-webkit-datetime-edit-fields-wrapper{
+  border: none;
+}
+#general_info_field,.edu_exp_fields{
+  display: flex;
+  flex-direction: column;
+}
+#main_fieldset>fieldset,#main_fieldset>fieldset>fieldset{
+  margin: .4em;
+  height: fit-content;
+  border-radius: 5px;
+  padding: .4em .6em;
+  display: flex;
+  flex-direction: column;
+}
+#main_fieldset>fieldset{
+  box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+  background:white;
+}
+.edu_exp_fields,#general_info_field{
+  padding-bottom: 1em !important;
+  border: none;
+  background:rgb(247, 242, 242);
+}
+.rmvBtn,.addBtn{
+  background:#be243b;
+  color: white;
+  border-radius: 4px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  align-self: flex-start;
+  padding: .2em .4em .35em .4em;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-size: 14px;
+}
+.rmvBtn:hover{
+  background:#eb8d9b;
+  color: #a5152b;
+  cursor: pointer;
+}
+.addBtn{
+  align-self:flex-start;
+  color:#2C5364;
+  background:white;
+  padding: .4em 1em;
+  height: 20px;
+  font-weight: 500;
+  margin-left: .5em;
+}
+.addBtn > svg{
+  height: 90%;
+  margin-right: .5em;
+}
+.addBtn:hover{
+  cursor:pointer;
+  background:#346275;
+  color: white;
+}
+#formDone{
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  padding: 2em 0 4em 0;
+}
+#formDone button{
+  border-radius: 4px;
+  height: 35px;
+  width: 100px;
+  border: none;
+  outline: none;
+  color: white;
+}
+#formDone button:hover{
+  cursor: pointer;
+}
+#formDone #back{
+  margin-left: .3em;
+  background:#203A43;
+}
+#formDone #back:hover{
+  background:#2C5364;
+}
+#ApplyChange{
+  background:#0c6e32;
+}
+#ApplyChange:hover{
+  background: #10803b;
 }
 
 
@@ -692,3 +889,203 @@ background: linear-gradient(to right, #2C5364, #203A43, #0F2027) !important; /* 
 
 
 
+
+
+/*post*/
+.post,#poster{
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  margin: .5em 0;
+  padding: .5em;
+  background:white;
+  border-radius: 10px;
+  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+  width: 450px;
+  position: relative;
+}
+.post:hover>#deletePost{
+  display: block;
+}
+#deletePost{
+  position: absolute;
+  height: fit-content;
+  width: fit-content;
+  padding: 0%;
+  display: flex;
+  right: .5em;
+  background: white;
+  border: none;
+  outline: none;
+  display: none;
+}
+#deletePost:hover{
+  cursor: pointer;
+}
+#deletePost>svg{
+  width: 20px;
+  height: 20px;
+  pointer-events: none;
+}
+#deletePost:hover > svg{
+  fill: #a5152b;
+}
+.post > *,#poster>*{
+  width: 100%;
+}
+.postOwner,#posterField{
+  display: flex;
+  align-items: center;
+}
+.postOwner h4{
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-size: 15px;
+  font-weight: 500;
+}
+.postOwner p{
+  font-family:sans-serif;
+  font-size: 12px;
+  color: rgb(148, 147, 147);
+  font-weight: 400;
+}
+.postText{
+  padding: .6em .3em;
+  margin: .2em 0;
+  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+  overflow-wrap: break-word;
+}
+.post .postInfo{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  color: #888;
+  font-size: 14px;
+  margin-bottom: .2em;
+}
+.postInfo p{
+    margin: 0 .3em;
+}
+
+.post .like_comment_btns,#share_upload_btns{
+  display: grid;
+  grid-template-columns:repeat(2,minmax(0,1fr)) ;
+  grid-gap: .2em;
+  border-bottom: .5px solid rgb(211, 209, 209) !important;
+  border-top: .5px solid rgb(211, 209, 209) !important;
+  padding: .1em 0;
+ 
+}
+.like_comment_btns > button,#share_upload_btns> button{
+  outline:none;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  background: white;
+  border-radius: 4px;
+  color: rgb(117, 116, 116);
+}
+.like_comment_btns > button:hover,#share_upload_btns> button:hover{
+  cursor: pointer;
+  background: #f3f3f3;
+}
+.like_comment_btns > button > svg,#share_upload_btns> button>svg{
+  height: 60%;
+  margin-right: .5em;
+}
+.liked{
+  color: #E81A39 !important;
+}
+
+
+
+
+/*posts*/
+#posts,#posterDiv{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+
+/*poster*/
+#poster fieldset{
+  border: none;
+  margin: .4em .2em 0 .2em;
+}
+#posterDiv hr{
+  height: .1px;
+  width: 400px;
+  background-color: #0c6e32;
+}
+#poster input,.commentAdder input,.commentAdder button{
+  outline: none;
+  border: none;
+  background:rgb(239, 239, 239);
+  width:380px;
+  height: 28px;
+  border-radius: 10px;
+  padding: 0 .8em;
+}
+
+/*commentAdder*/
+.commentAdder form{
+  margin: .3em .2em;
+  display: flex;
+  align-items: flex-end;
+}
+.commentAdder input{
+  border-radius: 10px 0 0 10px;
+}
+.commentAdder button{
+  border-radius: 0 10px 10px 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  background:rgb(216, 216, 216);
+  font-size: .7em;
+}
+.commentAdder button:hover{
+  cursor: pointer;
+  background: #000;
+  background:#eb8d9b;
+  color: #920d21;
+  font-weight: 500;
+}
+
+
+
+/*comment*/
+.comment{
+  margin-top: .5em;
+  margin-left: .2em;
+  padding:.4em 0 .4em .2em;
+  position: relative;
+  border-radius: 4px;
+}
+.comment h4{
+  margin: 0%;
+  padding: 0%;
+}
+.comment .postText{
+  font-size: .8em;
+  padding: 0 0 .1em 3.5em;
+  margin: 0%;
+}
+.comment:hover>#deletePost{
+  display: block;
+}
+.comment>#deletePost>svg{
+  width: 15px;
+  height: 15px;
+  pointer-events: none;
+  background: transparent;
+}
+.comment #deletePost{
+  top: 20px;
+}
+.comment:hover{
+  background:rgb(247, 244, 244);
+}

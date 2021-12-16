@@ -1,5 +1,6 @@
 import axios from 'axios'
-import {PROFILE_ERROR,GET_PROFILE, MODIFY_AVATAR, GET_PROFILES, CLEAR_PROFILE} from './types'
+import {PROFILE_ERROR,GET_PROFILE, MODIFY_AVATAR, GET_PROFILES, CLEAR_PROFILE, LOGOUT} from './types'
+
 
 
 //get current useres profile
@@ -8,7 +9,7 @@ export const getCurrentProfile=()=> async dispatch=>{
         type:CLEAR_PROFILE
     })
     try {
-        const res=await axios.get('api/profile/me')
+        const res=await axios.get('/api/profile/me')
         dispatch({
             type:GET_PROFILE,
             payload:res.data
@@ -16,7 +17,7 @@ export const getCurrentProfile=()=> async dispatch=>{
     } catch (error) {
         dispatch({
             type:PROFILE_ERROR,
-            payload:{msg:error.response.statusText,status:error.response.status}
+            payload:{msg:error.message}
         })
     }
 }
@@ -25,7 +26,7 @@ export const getCurrentProfile=()=> async dispatch=>{
 //get all profiles
 export const getProfiles=()=> async dispatch=>{
     try {
-        const res=await axios.get('api/profile')
+        const res=await axios.get('/api/profile')
         dispatch({
             type:GET_PROFILES,
             payload:res.data
@@ -33,7 +34,7 @@ export const getProfiles=()=> async dispatch=>{
     } catch (error) {
         dispatch({
             type:PROFILE_ERROR,
-            payload:{msg:error.response.statusText,status:error.response.status}
+            payload:{msg:'error all'}
         })
     }
 }
@@ -54,7 +55,7 @@ export const getProfileById=(userId)=> async dispatch=>{
     } catch (error) {
         dispatch({
             type:PROFILE_ERROR,
-            payload:{msg:error.response.statusText,status:error.response.status}
+            payload:{msg:"error byId"}
         })
     }
 }
@@ -69,7 +70,9 @@ export const createProfile=(newProfile)=>async dispatch=>{
     }
     const body=JSON.stringify(newProfile)
     try {
-        const res=await axios.post('api/profile',body,config)
+        console.log(newProfile)
+        const res=await axios.post('/api/profile',body,config)
+        console.log('res.data')
         dispatch({
             type:GET_PROFILE,
             payload:res.data
@@ -82,6 +85,100 @@ export const createProfile=(newProfile)=>async dispatch=>{
     }
 }
 
+//delete user
+export const deleteUser=()=>async dispatch=>{
+    try {
+        await axios.delete('/api/profile')
+        dispatch({
+            type:LOGOUT
+        })
+    } catch (error) {
+        dispatch({
+            type:PROFILE_ERROR,
+            payload:{msg:'error all'}
+        })
+    }
+}
+
+
+//add experience
+// export const addExperience=(newExp)=>async dispatch=>{
+//     const config={
+//         headers:{
+//             "Content-Type":"application/json"
+//         }
+//     }
+//     const body=JSON.stringify(newExp)
+//     try {
+//         const res=await axios.put('api/profile/experience',body,config)
+//         dispatch({
+//             type:GET_PROFILE,
+//             payload:res.data
+//         })
+//     } catch (error) {
+//         dispatch({
+//             type:PROFILE_ERROR,
+//             payload:{msg:error.response.statusText,status:error.response.status}
+//         })
+//     }
+// }
+
+
+
+// //add education
+// export const addEducation=(newEdu)=>async dispatch=>{
+//     const config={
+//         headers:{
+//             "Content-Type":"application/json"
+//         }
+//     }
+//     const body=JSON.stringify(newEdu)
+//     try {
+//         const res=await axios.put('api/profile/education',body,config)
+//         dispatch({
+//             type:GET_PROFILE,
+//             payload:res.data
+//         })
+//     } catch (error) {
+//         dispatch({
+//             type:PROFILE_ERROR,
+//             payload:{msg:error.response.statusText,status:error.response.status}
+//         })
+//     }
+// }
+
+// //delete Experience
+// export const RemoveExp=(exp_id)=>async dispatch=>{
+//     try {
+//         const res=await axios.delete(`api/profile/experience/${exp_id}`)
+//         dispatch({
+//             type:GET_PROFILE,
+//             payload:res.data
+//         })
+//     } catch (error) {
+//         dispatch({
+//             type:PROFILE_ERROR,
+//             payload:{msg:error.response.statusText,status:error.response.status}
+//         })
+//     }
+// }
+
+
+// //delete Education
+// export const RemoveEdu=(edu_id)=>async dispatch=>{
+//     try {
+//         const res=await axios.delete(`api/profile/education/${edu_id}`)
+//         dispatch({
+//             type:GET_PROFILE,
+//             payload:res.data
+//         })
+//     } catch (error) {
+//         dispatch({
+//             type:PROFILE_ERROR,
+//             payload:{msg:error.response.statusText,status:error.response.status}
+//         })
+//     }
+// }
 
 
 //modify avatar
