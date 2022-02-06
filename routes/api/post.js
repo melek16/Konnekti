@@ -6,6 +6,7 @@ const Post=require('../../models/Post')
 const User=require('../../models/User')
 const Profile=require('../../models/Profile')
 const postupload = require('../../middleware/postupload')
+const { post } = require('request')
 const router= express.Router()
 
 
@@ -32,7 +33,7 @@ router.post('/',auth,async (req,res)=>{
 
 
 
-//@route GET api/posts
+//@route GET api/post
 //@desc  Get all posts
 //@access Private
 router.get('/',auth,async (req,res)=>{
@@ -95,12 +96,13 @@ router.delete('/:id',auth,async(req,res)=>{
 //@access Private
 router.put('/like/:id',auth,async(req,res)=>{
     try {
+        const user= await User.findById(req.user.id).select('-password')
         const post = await Post.findById(req.params.id)
         //check if user already liked by this user
         if(post.likes.filter(like=>like.user.toString()===req.user.id).length>0){
             return res.status(400).json({msg:'post already liked'})
         }
-        post.likes.unshift({user:req.user.id})
+        post.likes.unshift({user:req.user.id,name:user.name,avatar:user.avatar})
         await post.save()
         res.json(post.likes)
     } catch (error) {
@@ -151,6 +153,17 @@ router.post('/comment/:id',auth,async (req,res)=>{
         post.comments.unshift(newComment)
         await post.save()
         res.json(post.comments)
+    } catch (error) {
+        console.log(error.message)
+        res.status(500).send('Server error')
+    }
+})
+
+//modifyAvatar
+router.put('/avatarModification',async(req,res)=>{
+    try {
+        await Post.updateMany({"comments.user":mongoose.Types.ObjectId(req.body.filename)},{$set:{"comments.$[elem].avatar":req.body.newAvatar}},{arrayFilters:[{"elem.user":mongoose.Types.ObjectId(req.body.filename)}]})
+        await Post.updateMany({"likes.user":mongoose.Types.ObjectId(req.body.filename)},{$set:{"likes.$[elem].avatar":req.body.newAvatar}},{arrayFilters:[{"elem.user":mongoose.Types.ObjectId(req.body.filename)}]})
     } catch (error) {
         console.log(error.message)
         res.status(500).send('Server error')

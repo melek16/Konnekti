@@ -16,6 +16,12 @@ const PostSchema=new Schema({
             user:{
                 type:Schema.Types.ObjectId,
                 reference:'user'
+            },
+            name:{
+                type:String
+            },
+             avatar:{
+                type:String
             }
         }
     ],

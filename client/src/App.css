@@ -958,12 +958,18 @@ background: linear-gradient(to right, #2C5364, #203A43, #0F2027) !important; /* 
   display: flex;
   align-items: center;
   justify-content: space-between;
-  color: #888;
   font-size: 14px;
   margin-bottom: .2em;
 }
-.postInfo p{
+.postInfo p,#showMoreComments,#viewComments{
     margin: 0 .3em;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-size: .9em;
+    color: #888;
+}
+.postInfo p:hover,#showMoreComments:hover,#viewComments:hover,.postOwner h4:hover{
+  cursor: pointer;
+  text-decoration-line: underline;
 }
 
 .post .like_comment_btns,#share_upload_btns{
@@ -1019,7 +1025,7 @@ background: linear-gradient(to right, #2C5364, #203A43, #0F2027) !important; /* 
   width: 400px;
   background-color: #0c6e32;
 }
-#poster input,.commentAdder input,.commentAdder button{
+#poster input,.commentAdder button{
   outline: none;
   border: none;
   background:rgb(239, 239, 239);
@@ -1030,13 +1036,34 @@ background: linear-gradient(to right, #2C5364, #203A43, #0F2027) !important; /* 
 }
 
 /*commentAdder*/
-.commentAdder form{
-  margin: .3em .2em;
+.commentAdder{
   display: flex;
-  align-items: flex-end;
+  align-items: center;
 }
-.commentAdder input{
+.commentAdder form{
+  margin: .8em .2em .3em .2em;
+  display: flex;
+  align-items: flex-start;
+}
+.commentAdder #nav_avatar_container,.comment #nav_avatar_container{
+  border: .5px solid rgb(112, 111, 111);
+  align-self: flex-start;
+}
+.commentAdder #nav_avatar_container{
+  margin-top: .9em;
+}
+.commentAdder textarea{
+  width: 350px;
   border-radius: 10px 0 0 10px;
+  padding: .3em .5em .3em .5em;
+  background:rgb(239, 239, 239);
+  outline: none;
+  border: none;
+  box-sizing: border-box;
+  height: 28px;
+  overflow: hidden;
+  resize: none;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 .commentAdder button{
   border-radius: 0 10px 10px 0;
@@ -1065,27 +1092,96 @@ background: linear-gradient(to right, #2C5364, #203A43, #0F2027) !important; /* 
   position: relative;
   border-radius: 4px;
 }
+.comment .postOwner{
+  align-items: flex-start;
+}
 .comment h4{
-  margin: 0%;
+  margin: 0 0 .2em 0;
   padding: 0%;
+  font-size: .8em;
+}
+.comment h4:hover{
+  cursor: pointer;
+  text-decoration-line: underline;
 }
 .comment .postText{
   font-size: .8em;
-  padding: 0 0 .1em 3.5em;
+  padding: 0 ;
   margin: 0%;
+  color: rgb(26, 26, 26);
+  overflow-wrap: break-word;
+  max-width: 360px;
+}
+.comment .commentBox{
+  background: rgb(236, 234, 234);
+  padding: .3em;
+  border-radius: 10px;
 }
 .comment:hover>#deletePost{
   display: block;
+  background: transparent;
 }
 .comment>#deletePost>svg{
   width: 15px;
   height: 15px;
   pointer-events: none;
-  background: transparent;
+  background-color:rgb(247, 244, 244);
 }
 .comment #deletePost{
   top: 20px;
 }
 .comment:hover{
   background:rgb(247, 244, 244);
+}
+
+
+
+/*likes*/
+.likeLink{
+  display: flex;
+  align-items: center;
+  border-radius: 10px;
+  margin: .2em ;
+  padding: .4em ;
+  font-size: 15px;
+  font-weight: 500;
+}
+.likeLink:hover{
+  cursor: pointer;
+  background:rgb(247, 244, 244);
+
+}
+#whoLiked{
+  position: fixed;
+  z-index: 10;
+  background: white;
+  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+  width: 450px;
+  border-radius: 10px;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  display: flex;
+  flex-direction: column;
+  padding: .4em .7em .7em .7em;
+}
+#whoLiked #x{
+  align-self: flex-end;
+  margin-right: .4em;
+  font-size: 20px;
+  color: rgb(66, 66, 66);
+}
+#whoLiked #x:hover{
+  cursor: pointer;
+  color: #555;
+}
+#like_container{
+  position: fixed;
+  right: 0%;
+  left: 0%;
+  top: 0%;
+  bottom: 0%;
+  z-index: 11;
+  background: rgb(236, 229, 229,.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }

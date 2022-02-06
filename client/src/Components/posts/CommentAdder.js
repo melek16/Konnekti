@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { addComment } from '../../actions/post'
 
-const CommentAdder = ({postId}) => {
+const CommentAdder = ({postId,shownComments,setShownComments}) => {
     const {user} = useSelector(state => state.auth)
     const dispatch = useDispatch()
     const [comment, setComment] = useState('')
@@ -33,17 +33,27 @@ const onSubmit=(e,text)=>{
     if(text){
         if(text.trim()){
             dispatch(addComment(postId,text))
+            setShownComments(shownComments+1)
         }
-    }
-   
+    } 
+    setComment('')
+    document.querySelector('#textarea').style.height='28px'
+    
 }
+function textAreaAdjust(element) {
+    element.style.height = "1px";
+    element.style.height = (2+element.scrollHeight)+"px";
+  }
     return (
         <div className='commentAdder'>
-            <form onSubmit={e=>onSubmit(e,comment)}>
-            <div id="nav_avatar_container">
+                        <div id="nav_avatar_container">
                 <img src={user && user.avatar} alt="" width={width} height={height}/>
             </div>
-            <input type="text" placeholder='Write a comment...' value={comment} onChange={e=>setComment(e.target.value)}/>
+            <form onSubmit={e=>onSubmit(e,comment)}>
+
+         
+            <textarea onKeyUp={e=>textAreaAdjust(e.target)} id="textarea" type="text" placeholder='Write a comment...' value={comment} onChange={e=>setComment(e.target.value)}/>
+ 
             <button type='submit'>Add</button>
             </form>
         </div>

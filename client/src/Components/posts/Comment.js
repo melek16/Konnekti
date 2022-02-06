@@ -1,9 +1,11 @@
 import React, { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { deleteComment } from '../../actions/post'
+import {useNavigate} from 'react-router-dom'
 
 const Comment = ({comment,postId}) => {
     const {user} = useSelector(state => state.auth)
+    const navigate=useNavigate()
     const dispatch = useDispatch()
     const [width, setWidth] = useState()
     const [height, setHeight] = useState()
@@ -37,11 +39,12 @@ const Comment = ({comment,postId}) => {
                         <div id="nav_avatar_container">
                             <img src={comment.avatar} alt="" width={width} height={height}/>
                         </div>
-                        <div>
-                        <h4>{comment.name}</h4>
+                        <div className='commentBox'>
+                        <h4 onClick={()=>navigate(user._id===comment.user?'/profile': `/profile/${comment.user}`)}>{comment.name}</h4>
+                        <p className='postText'>{comment.text}</p>
                         </div>  
                         </div>
-                        <p className='postText'>{comment.text}</p>
+                        
                         </div>
     )
 }

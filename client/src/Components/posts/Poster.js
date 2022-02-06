@@ -32,8 +32,10 @@ const onSubmit=()=>{
     if(text){
         if(text.trim()){
             dispatch(postPost(text))
+            return false
         }
     }
+    
     
 }
     return (

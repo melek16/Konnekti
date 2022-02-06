@@ -76,7 +76,6 @@ router.post('/avatarUpdate/:user_id',auth,async (req,res)=>{
         let user=await User.findById(req.params.user_id)
         user=await User.findOneAndUpdate({_id:req.params.user_id},{$set:{avatar:req.body.avatar}},{new:true})
 
-
         res.json(user)
         
     } catch (error) {

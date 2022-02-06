@@ -11,7 +11,7 @@ const ProfilePosts = () => {
     return (
         <div id='posts'>
         {
-            posts.map(post=>profile.user._id===post.user._id?<Post post={post}/>:null)
+            posts.map(post=>profile&&post&&(profile.user._id===post.user._id)?<Post post={post}/>:null)
 
         }
     </div>

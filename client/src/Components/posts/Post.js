@@ -1,17 +1,22 @@
 import React, { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
+import { useNavigate } from 'react-router-dom'
 import { deletePost, likePost, unlikePost } from '../../actions/post'
 import CommentAdder from './CommentAdder'
 import Comments from './Comments'
+import Likes from './Likes'
 
 const Post = ({post}) => {
     const {user}= useSelector(state => state.auth)
     const dispatch = useDispatch()
+    const navigate=useNavigate()
     const [commenting, setCommenting] = useState(false)
+    const [shownComments, setShownComments] = useState(0)
+    const [showLikes, setShowLikes] = useState(false)
     const [width, setWidth] = useState()
     const [height, setHeight] = useState()
     var img = new Image();
-    img.src = post && post.user.avatar
+    img.src = post&& post.user.avatar
     img.style.display = "none";
     img.onload = function(){
     this.style.display = "block";
@@ -39,6 +44,13 @@ function formatDate(date) {
         year = d.getFullYear();
     return [monthNames[month],day, year].join(' ');
 }
+const clickOnComments=()=>{
+    if(shownComments>0){
+        setShownComments(0)
+    }else{
+        setShownComments(3)
+    }
+}
 const liked=user && post.likes.map(like=>like.user).includes(user._id) 
     return (
         <div className='post'>
@@ -53,7 +65,7 @@ const liked=user && post.likes.map(like=>like.user).includes(user._id)
                         <img src={post && post.user.avatar} alt="" width={width} height={height}/>
                     </div>
                     <div>
-                        <h4>{post.name}</h4>
+                        <h4 onClick={()=>navigate(user._id===post.user._id?'/profile': `/profile/${post.user._id}`)}>{post.name}</h4>
                         <p>{formatDate(post.date)}</p>
                     </div>    
             </div>
@@ -63,8 +75,8 @@ const liked=user && post.likes.map(like=>like.user).includes(user._id)
 
 
             <div className='postInfo'>
-                    {post.likes.length>0 ?<p>{post.likes.length} like{post.likes.length>1 && 's'}</p>:<p></p>}
-                    {post.comments.length>0 ?<p>{post.comments.length} comment{post.comments.length>1 && 's'}</p>:<p></p>}
+                    {post.likes.length>0 ?<p onClick={()=>setShowLikes(true)}>{post.likes.length} like{post.likes.length>1 && 's'}</p>:<p></p>}
+                    {post.comments.length>0 ?<p onClick={clickOnComments}>{post.comments.length} comment{post.comments.length>1 && 's'}</p>:<p></p>}
             </div>
 
 
@@ -85,8 +97,10 @@ const liked=user && post.likes.map(like=>like.user).includes(user._id)
                     Comment
                 </button>
             </div>
-            <Comments comments={post.comments} postId={post._id}/>
-            <CommentAdder postId={post._id} focus={commenting}/>
+            {commenting&&<CommentAdder postId={post._id} shownComments={shownComments} setShownComments={setShownComments}/>}
+            {shownComments===0&&commenting&&post.comments.length>0&&<p onClick={clickOnComments} id="viewComments">View Comments...</p>}
+            {shownComments>0 &&<Comments comments={post.comments} postId={post._id} shownComments={shownComments} setShownComments={setShownComments}/>}
+            {showLikes&&post.likes.length>0&&<Likes likes={post.likes} setShowLikes={setShowLikes}/>}  
         </div>
     )
 }

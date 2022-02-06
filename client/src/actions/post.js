@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { GET_POSTS,  POST_ERROR, POST_SUCCESS } from './types'
+import { GET_POSTS,  POST_ERROR,  POST_SUCCESS } from './types'
 
 
 
@@ -110,6 +110,7 @@ export const addComment=(post_id,text)=>async dispatch=>{
 export const deleteComment=(post_id,comment_id)=>async dispatch=>{
     try {
         await axios.delete(`/api/post/comment/${post_id}/${comment_id}`)
+        // dispatch({type:POST_LOADING})
         dispatch(getPosts())
     } catch (error) {
         dispatch({

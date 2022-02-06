@@ -1,4 +1,5 @@
 import axios from 'axios'
+import { getPosts } from './post'
 import {PROFILE_ERROR,GET_PROFILE, MODIFY_AVATAR, GET_PROFILES, CLEAR_PROFILE, LOGOUT} from './types'
 
 
@@ -47,7 +48,7 @@ export const getProfileById=(userId)=> async dispatch=>{
     })
     try {
         const res=await axios.get(`/api/profile/user/${userId}`)
-        console.log(res.data)
+        console.log(`res:${res.data}`)
         dispatch({
             type:GET_PROFILE,
             payload:res.data
@@ -192,13 +193,17 @@ export const avatarUpdate=(file)=>async dispatch=>{
         let res=await axios.post('/api/auth/avatarUpdate',file,{headers: {
             'Content-Type': 'multipart/form-data'
         }})
+        const newAvatar=`http://192.168.1.4:3000/api/auth/avatar/${res.data.id}/${res.data.filename}`
+        const res2=await axios.post(`api/users/avatarUpdate/${res.data.filename}`,{"avatar":newAvatar},config)
         
-        const res2=await axios.post(`api/users/avatarUpdate/${res.data.filename}`,{"avatar":`http://localhost:5000/api/auth/avatar/${res.data.id}/${res.data.filename}`},config)
-        dispatch(getProfiles())
+        
         dispatch({
             type:MODIFY_AVATAR,
             payload:res2.data
         })
+        dispatch(getProfiles())
+        axios.put('/api/post/avatarModification',{filename:res.data.filename,newAvatar},config)
+        dispatch(getPosts())
     } catch (error) {
         dispatch({
             type:PROFILE_ERROR,

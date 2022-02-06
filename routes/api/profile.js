@@ -5,6 +5,7 @@ const Profile = require('../../models/Profile')
 const User=require('../../models/User')
 const {check,validationResult} =require('express-validator')
 const mongoose=require('mongoose')
+const Post=require('../../models/Post')
 
 //@route   GET api/profile/me
 //@desc    Get current user's profile
@@ -87,16 +88,18 @@ router.get('/',async(req,res)=>{
 //@access  Public
 router.get('/user/:user_id',async(req,res)=>{
     try {
+        let user=await User.findOne({_id:req.params.user_id}).select({name:1,avatar:1})
+        if(!user){
+            return res.status(400).json({msg:'no such user'})
+        }
         let profile=await Profile.findOne({user:req.params.user_id}).populate('user',['name','avatar'])
         if(!profile){
-            // return res.status(400).json({msg:'profile not found'})
-            const user=await User.findOne({_id:req.params.user_id}).select({name:1,avatar:1})
             profile={user}
         }
-        res.json(profile)
+        return res.json(profile)
     } catch (error) {
         console.log(error.message)
-        if(err.kind=='ObjectId'){
+        if(error.kind=='ObjectId'){
             return res.status(400).json({msg:'profile not found'})
         }
         res.status(500).send('Server error')
@@ -113,7 +116,11 @@ router.delete('/',auth,async(req,res)=>{
         await Profile.findOneAndRemove({user:req.user.id})
         //remove user
         await User.findOneAndRemove({_id:req.user.id})
-
+        //delete posts
+        await Post.deleteMany({user:{_id:req.user.id}})
+        //delete likes
+        await Post.updateMany({},{$pull:{comments:{user:req.user.id}}})
+        await Post.updateMany({},{$pull:{likes:{user:req.user.id}}})
         res.json({msg:'user deleted'})
     } catch (error) {
         console.log(error.message)

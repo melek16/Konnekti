@@ -22,7 +22,7 @@ const Profile = () => {
     },[dispatch])
 
     var img = new Image();
-    img.src = profile && profile.user.avatar
+    img.src =profile&& profile.user && profile.user.avatar
     img.style.display = "none";
     img.onload = function(){
     // console.log("Image Loaded");
@@ -75,7 +75,7 @@ const Profile = () => {
     }
 
     const checkProfile=profile=>Object.values({...profile,__v:0}).filter(e=>e)
-    console.log(profile && checkProfile(profile))
+
     return(
         loading && profile===null? <Spinner/>:
         <Fragment>

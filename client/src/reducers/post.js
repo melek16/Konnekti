@@ -1,4 +1,4 @@
-import { GET_POSTS,POST_ERROR, POST_SUCCESS } from "../actions/types";
+import { GET_POSTS,POST_ERROR,  POST_SUCCESS } from "../actions/types";
 
 const initialState={
     posts:[],
